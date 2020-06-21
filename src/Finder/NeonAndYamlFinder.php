@@ -23,7 +23,7 @@ final class NeonAndYamlFinder
     /**
      * @return SmartFileInfo[]
      */
-    public function findYamlAndNeonFilesInfSource(string $source): array
+    public function findYamlAndNeonFilesInSource(string $source): array
     {
         if (is_file($source) && file_exists($source)) {
             return [new SmartFileInfo($source)];
