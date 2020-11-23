@@ -2,21 +2,27 @@
 
 declare(strict_types=1);
 
-namespace Migrify\NeonToYaml\Command;
+namespace Symplify\NeonToYamlConverter\Command;
 
-use Migrify\MigrifyKernel\Command\AbstractMigrifyCommand;
-use Migrify\MigrifyKernel\ValueObject\MigrifyOption;
-use Migrify\NeonToYaml\ArrayParameterCollector;
-use Migrify\NeonToYaml\Finder\NeonAndYamlFinder;
-use Migrify\NeonToYaml\NeonToYamlConverter;
 use Nette\Utils\Strings;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symplify\NeonToYamlConverter\ArrayParameterCollector;
+use Symplify\NeonToYamlConverter\Finder\NeonAndYamlFinder;
+use Symplify\NeonToYamlConverter\NeonToYamlConverter;
+use Symplify\NeonToYamlConverter\ValueObject\Option;
+use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
 
-final class ConvertCommand extends AbstractMigrifyCommand
+final class ConvertCommand extends AbstractSymplifyCommand
 {
+    /**
+     * @see https://regex101.com/r/lrPvtZ/1
+     * @var string
+     */
+    private const NEON_SUFFIX_REGEX = '#\.neon$#';
+
     /**
      * @var NeonToYamlConverter
      */
@@ -46,13 +52,13 @@ final class ConvertCommand extends AbstractMigrifyCommand
 
     protected function configure(): void
     {
-        $this->addArgument(MigrifyOption::SOURCES, InputArgument::REQUIRED, 'Directory or file to convert');
+        $this->addArgument(Option::SOURCES, InputArgument::REQUIRED, 'Directory or file to convert');
         $this->setDescription('Converts Neon syntax to Yaml');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $source = (string) $input->getArgument(MigrifyOption::SOURCES);
+        $source = (string) $input->getArgument(Option::SOURCES);
         $fileInfos = $this->neonAndYamlFinder->findYamlAndNeonFilesInSource($source);
 
         $this->arrayParameterCollector->collectFromFiles($fileInfos);
@@ -60,7 +66,7 @@ final class ConvertCommand extends AbstractMigrifyCommand
         foreach ($fileInfos as $fileInfo) {
             $convertedContent = $this->neonToYamlConverter->convertFileInfo($fileInfo);
             $oldFilePath = $fileInfo->getPathname();
-            $newFilePath = Strings::replace($oldFilePath, '#\.neon$#', '.yaml');
+            $newFilePath = Strings::replace($oldFilePath, self::NEON_SUFFIX_REGEX, '.yaml');
 
             // save
             $this->smartFileSystem->dumpFile($newFilePath, $convertedContent);

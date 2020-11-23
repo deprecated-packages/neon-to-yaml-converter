@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Migrify\MigrifyKernel\Bootstrap\KernelBootAndApplicationRun;
-use Migrify\NeonToYaml\HttpKernel\NeonToYamlKernel;
+use Symplify\NeonToYamlConverter\HttpKernel\NeonToYamlKernel;
+use Symplify\SymplifyKernel\ValueObject\KernelBootAndApplicationRun;
 
 # 1. autoload
 $possibleAutoloadPaths = [

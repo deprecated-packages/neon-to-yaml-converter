@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Migrify\NeonToYaml\ConverterWorker;
+namespace Symplify\NeonToYamlConverter\ConverterWorker;
 
 use Nette\Neon\Entity;
 use Nette\Utils\Strings;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * @see \Migrify\NeonToYaml\Tests\NeonToYamlTest
+ * @see \Symplify\NeonToYamlConverter\Tests\NeonToYamlTest
  */
 final class ServiceConverterWorker
 {

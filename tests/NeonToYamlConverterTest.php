@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Migrify\NeonToYaml\Tests;
+namespace Symplify\NeonToYamlConverter\Tests;
 
 use Iterator;
-use Migrify\NeonToYaml\ArrayParameterCollector;
-use Migrify\NeonToYaml\HttpKernel\NeonToYamlKernel;
-use Migrify\NeonToYaml\NeonToYamlConverter;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\EasyTesting\StaticFixtureSplitter;
+use Symplify\NeonToYamlConverter\ArrayParameterCollector;
+use Symplify\NeonToYamlConverter\HttpKernel\NeonToYamlKernel;
+use Symplify\NeonToYamlConverter\NeonToYamlConverter;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
@@ -44,8 +44,7 @@ final class NeonToYamlConverterTest extends AbstractKernelTestCase
         $convertedFileContent = $this->neonToYamlConverter->convertFileInfo($inputAndExpected->getInputFileInfo());
 
         $this->assertSame(
-            $inputAndExpected->getExpectedFileInfo()
-                ->getContents(),
+            $inputAndExpected->getExpectedFileContent(),
             $convertedFileContent,
             $fixtureFileInfo->getRelativeFilePathFromCwd()
         );

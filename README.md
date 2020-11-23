@@ -1,8 +1,8 @@
-# Neon to Yaml Converter
+# NEON to YAML Converter
 
-[![Downloads total](https://img.shields.io/packagist/dt/migrify/neon-to-yaml.svg?style=flat-square)](https://packagist.org/packages/migrify/neon-to-yaml/stats)
+[![Downloads total](https://img.shields.io/packagist/dt/symplify/neon-to-yaml-converter.svg?style=flat-square)](https://packagist.org/packages/symplify/neon-to-yaml-converter/stats)
 
-Do you want to turn your [Neon](https://ne-on.org/) templates to [Yaml](https://symfony.com/doc/current/components/yaml.html)? There are [many differences](https://www.tomasvotruba.cz/blog/2018/03/12/neon-vs-yaml-and-how-to-migrate-between-them/) you need to watch out for.
+Do you want to turn your [NEON](https://ne-on.org/) templates to [YAML](https://symfony.com/doc/current/components/yaml.html)? There are [many differences](https://www.tomasvotruba.cz/blog/2018/03/12/neon-vs-yaml-and-how-to-migrate-between-them/) you need to watch out for.
 
 This tool automates it :)
 
@@ -47,7 +47,7 @@ This package won't do it all for you, but **it will help you with 90 % of the bo
 ## Install
 
 ```bash
-composer require migrify/neon-to-yaml --dev
+composer require symplify/neon-to-yaml-converter --dev
 ```
 
 ## Usage
@@ -63,8 +63,8 @@ That's it :)
 
 ## Report Issues
 
-In case you are experiencing a bug or want to request a new feature head over to the [migrify monorepo issue tracker](https://github.com/migrify/migrify/issues)
+In case you are experiencing a bug or want to request a new feature head over to the [Symplify monorepo issue tracker](https://github.com/symplify/symplify/issues)
 
 ## Contribute
 
-The sources of this package are contained in the migrify monorepo. We welcome contributions for this package on [migrify/migrify](https://github.com/migrify/migrify).
+The sources of this package are contained in the Symplify monorepo. We welcome contributions for this package on [symplify/symplify](https://github.com/symplify/symplify).

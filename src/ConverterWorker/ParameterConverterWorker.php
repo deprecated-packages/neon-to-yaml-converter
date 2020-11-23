@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Migrify\NeonToYaml\ConverterWorker;
+namespace Symplify\NeonToYamlConverter\ConverterWorker;
 
-use Migrify\NeonToYaml\ArrayParameterCollector;
+use Symplify\NeonToYamlConverter\ArrayParameterCollector;
 
 /**
- * @see \Migrify\NeonToYaml\Tests\NeonToYamlTest
+ * @see \Symplify\NeonToYamlConverter\Tests\NeonToYamlTest
  */
 final class ParameterConverterWorker
 {

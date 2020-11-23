@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Migrify\NeonToYaml;
+namespace Symplify\NeonToYamlConverter;
 
-use Migrify\NeonToYaml\ConverterWorker\ParameterConverterWorker;
-use Migrify\NeonToYaml\ConverterWorker\ServiceConverterWorker;
-use Migrify\NeonToYaml\Formatter\YamlOutputFormatter;
 use Nette\Neon\Entity;
 use Nette\Neon\Neon;
 use Nette\Utils\Strings;
 use Symfony\Component\Yaml\Yaml;
+use Symplify\NeonToYamlConverter\ConverterWorker\ParameterConverterWorker;
+use Symplify\NeonToYamlConverter\ConverterWorker\ServiceConverterWorker;
+use Symplify\NeonToYamlConverter\Formatter\YamlOutputFormatter;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
- * @see \Migrify\NeonToYaml\Tests\NeonToYamlConverterTest
+ * @see \Symplify\NeonToYamlConverter\Tests\NeonToYamlConverterTest
  */
 final class NeonToYamlConverter
 {
@@ -37,6 +37,48 @@ final class NeonToYamlConverter
      * @var string
      */
     private const IMPORTS_KEY = 'imports';
+
+    /**
+     * @see https://regex101.com/r/6ULWEC/1
+     * @var string
+     */
+    private const NULL_REGEX = "#: null\n#";
+
+    /**
+     * @see https://regex101.com/r/djToR8/1
+     * @var string
+     */
+    private const TILDA_NULL_QUOTED_REGEX = "#: '~'\n#";
+
+    /**
+     * @see https://regex101.com/r/4qSwF3/1/
+     * @var string
+     */
+    private const NEON_SUFFIX_REGEX = '#\.neon$#';
+
+    /**
+     * @see https://regex101.com/r/ZFOLCA/1
+     * @var string
+     */
+    private const KERNEL_PROJECT_REGEX = '#%kernel\.project_dir%\/app\/\.\.#';
+
+    /**
+     * @see https://regex101.com/r/DjjoEB/1
+     * @var string
+     */
+    private const WWW_DIR_REGEX = '#\%wwwDir\%#';
+
+    /**
+     * @see https://regex101.com/r/NrHQiR/1
+     * @var string
+     */
+    private const APP_DIR_REGEX = '#%appDir%#';
+
+    /**
+     * @see https://regex101.com/r/2bsgzr/1
+     * @var string
+     */
+    private const ENV_GET_REGEX = "#\@env::get\(\'?(.*?)\'?(,.*?)?\)#ms";
 
     /**
      * @var ArrayParameterCollector
@@ -113,7 +155,7 @@ final class NeonToYamlConverter
     private function convertEnv(string $content): string
     {
         // https://regex101.com/r/IxBjFD/1
-        return Strings::replace($content, "#\@env::get\(\'?(.*?)\'?(,.*?)?\)#ms", "'%env($1)%'");
+        return Strings::replace($content, self::ENV_GET_REGEX, "'%env($1)%'");
     }
 
     /**
@@ -134,7 +176,7 @@ final class NeonToYamlConverter
     {
         foreach ($data as $key => $value) {
             if (! Strings::contains($value, 'vendor')) {
-                $value = Strings::replace($value, '#\.neon$#', '.yaml');
+                $value = Strings::replace($value, self::NEON_SUFFIX_REGEX, '.yaml');
             }
 
             $data[$key] = [
@@ -149,20 +191,20 @@ final class NeonToYamlConverter
     {
         // @see https://symfony.com/blog/new-in-symfony-3-3-a-simpler-way-to-get-the-project-root-directory
         // %appDir% → %kernel.project_dir%/app
-        $content = Strings::replace($content, '#%appDir%#', '%kernel.project_dir%/app');
+        $content = Strings::replace($content, self::APP_DIR_REGEX, '%kernel.project_dir%/app');
 
         // %wwwDir% → %kernel.project_dir%/public
-        $content = Strings::replace($content, '#%wwwDir%#', '%kernel.project_dir%/public');
+        $content = Strings::replace($content, self::WWW_DIR_REGEX, '%kernel.project_dir%/public');
 
         // %kernel.project_dir%/app/..% → %kernel.project_dir%
-        return Strings::replace($content, '#%kernel.project_dir%\/app\/\.\.#', '%kernel.project_dir%');
+        return Strings::replace($content, self::KERNEL_PROJECT_REGEX, '%kernel.project_dir%');
     }
 
     private function replaceTilda(string $content): string
     {
-        $content = Strings::replace($content, "#: '~'\n#", ': ~' . PHP_EOL);
+        $content = Strings::replace($content, self::TILDA_NULL_QUOTED_REGEX, ': ~' . PHP_EOL);
 
-        return Strings::replace($content, "#: null\n#", ': ~' . PHP_EOL);
+        return Strings::replace($content, self::NULL_REGEX, ': ~' . PHP_EOL);
     }
 
     private function replaceOldToNewParameters(string $content): string

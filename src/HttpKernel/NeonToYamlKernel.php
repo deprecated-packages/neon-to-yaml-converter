@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Migrify\NeonToYaml\HttpKernel;
+namespace Symplify\NeonToYamlConverter\HttpKernel;
 
-use Migrify\MigrifyKernel\HttpKernel\AbstractMigrifyKernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 
-final class NeonToYamlKernel extends AbstractMigrifyKernel
+final class NeonToYamlKernel extends AbstractSymplifyKernel
 {
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {

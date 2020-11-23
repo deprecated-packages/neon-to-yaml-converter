@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Migrify\NeonToYaml\Finder;
+namespace Symplify\NeonToYamlConverter\Finder;
 
 use Symfony\Component\Finder\Finder;
 use Symplify\SmartFileSystem\Finder\FinderSanitizer;

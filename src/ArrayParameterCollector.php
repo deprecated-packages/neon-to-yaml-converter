@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Migrify\NeonToYaml;
+namespace Symplify\NeonToYamlConverter;
 
 use Nette\Utils\Strings;
 use Symplify\PackageBuilder\Strings\StringFormatConverter;
@@ -10,6 +10,12 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ArrayParameterCollector
 {
+    /**
+     * @see https://regex101.com/r/g8qUiM/1
+     * @var string
+     */
+    private const PARAM_NAME_REGEX = '#%(?<param_name>\w+\.\w+)%#';
+
     /**
      * @var string[]
      */
@@ -40,7 +46,7 @@ final class ArrayParameterCollector
     {
         foreach ($fileInfos as $fileInfo) {
             $content = $fileInfo->getContents();
-            $matches = Strings::matchAll($content, '#%(?<param_name>\w+\.\w+)%#');
+            $matches = Strings::matchAll($content, self::PARAM_NAME_REGEX);
 
             foreach ($matches as $match) {
                 $oldKey = $match['param_name'];

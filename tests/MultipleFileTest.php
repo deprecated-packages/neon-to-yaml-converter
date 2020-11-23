@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Migrify\NeonToYaml\Tests;
+namespace Symplify\NeonToYamlConverter\Tests;
 
-use Migrify\NeonToYaml\ArrayParameterCollector;
-use Migrify\NeonToYaml\HttpKernel\NeonToYamlKernel;
-use Migrify\NeonToYaml\NeonToYamlConverter;
+use Symplify\NeonToYamlConverter\ArrayParameterCollector;
+use Symplify\NeonToYamlConverter\HttpKernel\NeonToYamlKernel;
+use Symplify\NeonToYamlConverter\NeonToYamlConverter;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
